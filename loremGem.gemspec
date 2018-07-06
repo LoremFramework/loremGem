@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{This gem is created to the LoremFramework's sistem.}
   spec.description   = %q{Unify the web.}
-  spec.homepage      = "https://github.com/LoremFramework/loremGem.git"
+  spec.homepage      = "https://github.com/LoremFramework/loremGem"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
