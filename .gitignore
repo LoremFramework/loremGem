@@ -8,3 +8,17 @@
 /spec/reports/
 /tmp/
 *.gem
+
+.sass-cache
+bootstrap.css
+bootstrap-responsive.css
+.rvmrc
+.rbenv-version
+# Ignore bundler config
+/vendor/cache
+/vendor/bundle
+test/screenshots/
+test/dummy_rails/log/*.log
+test/dummy_rails/public/assets/
+.DS_Store
+node_modules

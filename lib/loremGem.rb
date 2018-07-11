@@ -2,37 +2,73 @@ require "loremGem/version"
 
 module LoremGem
 
-    Class << self
-        def go
-          if rails?
-            register_rails_engine
-          end
+  class << self
+# Inspired by Kaminari
+def load!
+  if rails?
+    register_rails_engine
+  elsif hanami?
+    register_hanami
+  elsif sprockets?
+    register_sprockets
+  end
 
-          def gem_path
-            @gem_path ||= File.expand_path '..', File.dirname(__FILE__)
-          end
+  configure_sass
+end
 
-          def stylesheets_path
-            File.join assets_path, 'stylesheets'
-          end
+# Paths
+def gem_path
+  @gem_path ||= File.expand_path '..', File.dirname(__FILE__)
+end
 
-          def javascripts_path
-            File.join assets_path, 'javascripts'
-          end
+def stylesheets_path
+  File.join assets_path, 'stylesheets'
+end
 
-          def assets_path
-            @assets_path ||= File.join gem_path, 'assets'
-          end
+def javascripts_path
+  File.join assets_path, 'javascripts'
+end
 
-          def rails?
-            defined?(::Rails)
-          end
+def assets_path
+  @assets_path ||= File.join gem_path, 'assets'
+end
 
-          def register_rails_engine
-            require 'loremGem/engine'
-          end
-      end
+# Environment detection helpers
+def sprockets?
+  defined?(::Sprockets)
+end
 
-      LoremGem.go
+def rails?
+  defined?(::Rails)
+end
+
+def hanami?
+  defined?(::Hanami)
+end
+
+private
+
+def configure_sass
+  require 'sass'
+
+  ::Sass.load_paths << stylesheets_path
+end
+
+def register_rails_engine
+  require 'LoremGem/engine'
+end
+
+def register_sprockets
+  Sprockets.append_path(stylesheets_path)
+  Sprockets.append_path(javascripts_path)
+end
+
+def register_hanami
+  Hanami::Assets.sources << assets_path
+end
+end
+end
 
 end
+
+LoremGem.load!
